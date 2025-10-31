@@ -1,6 +1,6 @@
 # mcp-srvr
 
-Model Context Protocol (MCP) server for enforcing README standards and best practices across the nebula-aurora project.
+Model Context Protocol (MCP) server for enforcing README standards and best practices across the pubsub-mcp project.
 
 ## Service Overview
 
@@ -11,7 +11,8 @@ Model Context Protocol (MCP) server for enforcing README standards and best prac
 
 ### Purpose
 
-This service implements a Model Context Protocol server that provides AI agents with tools to validate, generate, and improve README documentation. It acts as a specialized microservice that can be consumed by AI agents to ensure README files across the project meet organizational standards.
+This service implements a Model Context Protocol server that provides AI agents with tools to validate, generate, and improve README documentation.
+It acts as a specialized microservice that can be consumed by AI agents to ensure README files across the project meet organizational standards.
 
 The service integrates with the ai-svc for LLM-powered suggestions using Dapr pub/sub messaging, enabling AI-assisted README improvements while maintaining separation of concerns.
 
@@ -101,6 +102,7 @@ Dapr CLI (for local development with pub/sub)
     ```
 
 The service will be available at:
+
 - MCP endpoint: `http://localhost:8082/mcp/readme-standards`
 - Health check: `http://localhost:8082/health`
 
@@ -229,6 +231,7 @@ The MCP server exposes 4 tools for AI agents:
 Validates README content against standards.
 
 **Input:**
+
 ```json
 {
   "content": "# My Project\n\nDescription...",
@@ -237,6 +240,7 @@ Validates README content against standards.
 ```
 
 **Output:**
+
 ```json
 {
   "valid": true,
@@ -253,6 +257,7 @@ Validates README content against standards.
 Generates README from project metadata.
 
 **Input:**
+
 ```json
 {
   "name": "my-project",
@@ -264,6 +269,7 @@ Generates README from project metadata.
 ```
 
 **Output:**
+
 ```json
 {
   "readme": "# my-project\n\nA great project\n\n## Features..."
@@ -275,6 +281,7 @@ Generates README from project metadata.
 Gets AI-powered suggestions (uses ai-svc sampling).
 
 **Input:**
+
 ```json
 {
   "content": "# Project\n\nBasic description."
@@ -282,6 +289,7 @@ Gets AI-powered suggestions (uses ai-svc sampling).
 ```
 
 **Output:**
+
 ```json
 {
   "suggestions": [
@@ -300,6 +308,7 @@ Gets AI-powered suggestions (uses ai-svc sampling).
 Checks required and optional section presence.
 
 **Input:**
+
 ```json
 {
   "content": "# My Project\n\n## Description\n\n## Installation"
@@ -307,6 +316,7 @@ Checks required and optional section presence.
 ```
 
 **Output:**
+
 ```json
 {
   "overallScore": 70,
@@ -577,7 +587,7 @@ dapr.io/enable-api-logging: "true"
 
 ## Related Documentation
 
-- [Effect-TS Standards](../../.docs/guides/effect-ts.standards.md) - Effect-TS coding standards
+- [Effect-TS Standards](../../docs/guides/effect-ts.standards.md) - Effect-TS coding standards
 - [ai-svc README](../ai-svc/README.md) - AI service integration
 
 ## Service-Specific Resources

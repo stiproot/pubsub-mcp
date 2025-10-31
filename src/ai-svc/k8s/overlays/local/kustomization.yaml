@@ -1,7 +1,7 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 
-namespace: nebula-aurora
+namespace: pubsub-mcp
 
 resources:
   - ../../base
@@ -53,6 +53,6 @@ configMapGenerator:
   - name: ai-svc-config
     behavior: merge
     literals:
-      - CTX_SVC_URL=http://ctx-svc.nebula-aurora.svc.cluster.local:8081
+      - CTX_SVC_URL=http://ctx-svc.pubsub-mcp.svc.cluster.local:8081
       - NATS_URL=nats://nats:4222
       - PUBSUB_NAME=ai-pubsub

@@ -5,5 +5,5 @@ metadata:
 data:
   PUBSUB_NAME: "ai-pubsub"
   TOPIC_NAME: "ai-stream"
-  README_TEMPLATE_URL: "https://raw.githubusercontent.com/your-org/nebula-aurora/main/.docs/ai/templates/README.md"
+  README_TEMPLATE_URL: "https://raw.githubusercontent.com/your-org/pubsub-mcp/main/.docs/ai/templates/README.md"
   SAMPLING_TIMEOUT_MS: "30000"

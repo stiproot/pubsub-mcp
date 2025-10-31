@@ -78,7 +78,7 @@ export const ConfigServiceLive = Layer.succeed(ConfigService, {
   getTopicName: getEnv("TOPIC_NAME", "ai-stream"),
   getTemplateUrl: getEnv(
     "README_TEMPLATE_URL",
-    "https://raw.githubusercontent.com/your-org/nebula-aurora/main/.docs/ai/templates/README.md"
+    "https://raw.githubusercontent.com/your-org/pubsub-mcp/main/.docs/ai/templates/README.md"
   ),
   getSamplingTimeout: getEnvInt("SAMPLING_TIMEOUT_MS", 30000)
 })
