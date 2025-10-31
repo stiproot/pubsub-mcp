@@ -1,0 +1,58 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+namespace: nebula-aurora
+
+resources:
+  - ../../base
+
+# Use local image built with minikube docker-env
+images:
+  - name: ai-svc
+    newName: localhost/ai-svc
+    newTag: latest
+
+# Add NodePort service for local access and set imagePullPolicy to Never
+patches:
+  - patch: |-
+      apiVersion: apps/v1
+      kind: Deployment
+      metadata:
+        name: ai-svc
+      spec:
+        template:
+          spec:
+            containers:
+            - name: ai-svc
+              imagePullPolicy: Never
+    target:
+      kind: Deployment
+      name: ai-svc
+  - patch: |-
+      apiVersion: v1
+      kind: Service
+      metadata:
+        name: ai-svc
+      spec:
+        type: NodePort
+        ports:
+        - port: 8081
+          targetPort: 8081
+          protocol: TCP
+          name: http
+          nodePort: 30082
+    target:
+      kind: Service
+      name: ai-svc
+  - path: secret-patch.yaml
+    target:
+      kind: Secret
+      name: ai-svc-secrets
+
+configMapGenerator:
+  - name: ai-svc-config
+    behavior: merge
+    literals:
+      - CTX_SVC_URL=http://ctx-svc.nebula-aurora.svc.cluster.local:8081
+      - NATS_URL=nats://nats:4222
+      - PUBSUB_NAME=ai-pubsub

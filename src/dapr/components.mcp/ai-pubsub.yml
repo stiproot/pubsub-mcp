@@ -1,0 +1,23 @@
+apiVersion: dapr.io/v1alpha1
+kind: Component
+metadata:
+  name: ai-pubsub
+spec:
+  type: pubsub.jetstream
+  version: v1
+  initTimeout: 30s
+  metadata:
+    - name: natsURL
+      value: "nats://localhost:4222"
+    - name: streamName
+      value: "ai-pubsub"
+    - name: queueGroupName
+      value: "ai-queue"
+    - name: deliverNew
+      value: "true"
+    - name: flowControl
+      value: "false"
+    - name: ackWaitTime
+      value: "30s"
+    - name: maxDeliver
+      value: "1"

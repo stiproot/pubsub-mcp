@@ -1,0 +1,85 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mcp-srvr
+  labels:
+    app: mcp-srvr
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: mcp-srvr
+  template:
+    metadata:
+      labels:
+        app: mcp-srvr
+      annotations:
+        dapr.io/enabled: "true"
+        dapr.io/app-id: "mcp-srvr"
+        dapr.io/app-port: "3005"
+        dapr.io/enable-api-logging: "true"
+    spec:
+      containers:
+        - name: mcp-srvr
+          image: mcp-srvr:latest
+          ports:
+            - containerPort: 8082
+              name: http
+              protocol: TCP
+            - containerPort: 3005
+              name: app
+              protocol: TCP
+          env:
+            - name: PORT
+              value: "3005"
+            - name: HOST
+              value: "0.0.0.0"
+            - name: DAPR_HOST
+              value: "localhost"
+            - name: DAPR_HTTP_PORT
+              value: "3500"
+            - name: DAPR_APP_ID
+              value: "mcp-srvr"
+            - name: PUBSUB_NAME
+              valueFrom:
+                configMapKeyRef:
+                  name: mcp-srvr-config
+                  key: PUBSUB_NAME
+            - name: TOPIC_NAME
+              valueFrom:
+                configMapKeyRef:
+                  name: mcp-srvr-config
+                  key: TOPIC_NAME
+            - name: README_TEMPLATE_URL
+              valueFrom:
+                configMapKeyRef:
+                  name: mcp-srvr-config
+                  key: README_TEMPLATE_URL
+            - name: SAMPLING_TIMEOUT_MS
+              valueFrom:
+                configMapKeyRef:
+                  name: mcp-srvr-config
+                  key: SAMPLING_TIMEOUT_MS
+          resources:
+            requests:
+              memory: "256Mi"
+              cpu: "200m"
+            limits:
+              memory: "1Gi"
+              cpu: "1000m"
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: 8082
+            initialDelaySeconds: 30
+            periodSeconds: 10
+            timeoutSeconds: 5
+            failureThreshold: 3
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: 8082
+            initialDelaySeconds: 10
+            periodSeconds: 5
+            timeoutSeconds: 3
+            failureThreshold: 3

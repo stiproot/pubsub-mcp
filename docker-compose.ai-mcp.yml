@@ -1,0 +1,75 @@
+# Docker Compose for AI-SVC and MCP-SRVR Dependencies
+# Minimal set of dependencies needed to run ai-svc and mcp-srvr locally
+#
+# Usage:
+#   docker-compose -f docker-compose.ai-mcp.yml up -d
+#
+# Services included:
+#   - Dapr Placement (required for Dapr actors)
+#   - Dapr Scheduler (required for Dapr workflows)
+#   - NATS JetStream (pub/sub messaging)
+#   - PostgreSQL (state store for ai-svc chat history and mcp-srvr state)
+
+services:
+
+  dapr-placement:
+    image: daprio/dapr:1.16.0
+    container_name: aurora-dapr-placement
+    command: ["./placement", "-port", "50006"]
+    ports:
+      - 50006:50006
+    networks:
+      - ai-mcp-network
+
+  dapr-scheduler:
+    image: daprio/dapr:1.16.0
+    container_name: aurora-dapr-scheduler
+    command: ["./scheduler"]
+    ports:
+      - 50007:50006
+    volumes:
+      - dapr-scheduler-data:/data
+    networks:
+      - ai-mcp-network
+
+  ai-mcp-postgres:
+    image: postgres:alpine
+    container_name: ai-mcp-postgres
+    ports:
+      - 5432:5432
+    environment:
+      - POSTGRES_USER=dapr
+      - POSTGRES_PASSWORD=dapr
+      - POSTGRES_DB=dapr_state
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U dapr -d dapr_state"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    volumes:
+      - ai-mcp-postgres-data:/var/lib/postgresql/data
+    networks:
+      - ai-mcp-network
+
+  nats:
+    image: nats:alpine3.22
+    container_name: aurora-nats
+    command: ["-js", "-m", "8222"]
+    ports:
+      - 4222:4222  # NATS client port
+      - 8222:8222  # NATS monitoring port
+    healthcheck:
+      test: ["CMD", "wget", "--spider", "-q", "http://localhost:8222/healthz"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - ai-mcp-network
+
+networks:
+  ai-mcp-network:
+    driver: bridge
+
+volumes:
+  dapr-scheduler-data:
+  ai-mcp-postgres-data:

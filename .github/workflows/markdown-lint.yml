@@ -1,0 +1,30 @@
+name: Markdown Linting
+
+on:
+  push:
+    branches: [ main, standards ]
+    paths:
+      - '**/*.md'
+      - '.github/workflows/markdown-lint.yml'
+  pull_request:
+    branches: [ main ]
+    paths:
+      - '**/*.md'
+      - '.github/workflows/markdown-lint.yml'
+  workflow_dispatch:
+
+jobs:
+  lint-markdown:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '25'
+
+    - name: Run markdown linting
+      run: npx markdownlint-cli '**/*.md' '!**/node_modules/**' '!.website/**' --config .markdownlint.yml

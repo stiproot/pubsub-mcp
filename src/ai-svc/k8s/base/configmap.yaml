@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: ai-svc-config
+  labels:
+    app: ai-svc
+data:
+  CTX_SVC_URL: "http://ctx-svc.nebula-aurora.svc.cluster.local:8081"
+  NATS_URL: "nats://nats:4222"
+  PUBSUB_NAME: "ai-pubsub"
+  STATE_STORE_NAME: "ai-statestore"
