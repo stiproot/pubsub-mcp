@@ -1,5 +1,5 @@
 {
-  "name": "ai-svc",
+  "name": "@pubsub-mcp/ai-svc",
   "version": "1.0.0",
   "type": "module",
   "main": "index.js",
@@ -24,9 +24,9 @@
     "test:ui": "vitest --ui"
   },
   "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "description": "Event Service - Orchestrates player context data with enrichment from NATS and ClickHouse",
+  "author": "Simon Stipcich",
+  "license": "MIT",
+  "description": "Agent orchestration service.",
   "dependencies": {
     "@clickhouse/client": "^1.12.1",
     "@dapr/dapr": "^3.6.1",

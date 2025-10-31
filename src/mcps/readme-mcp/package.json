@@ -1,7 +1,7 @@
 {
-  "name": "@nebula-aurora/mcp-srvr",
+  "name": "@pubsub-mcp/readme-mcp",
   "version": "1.0.0",
-  "description": "MCP server for enforcing README standards in nebula-aurora",
+  "description": "MCP server for enforcing README standards.",
   "type": "module",
   "main": "./dist/index.js",
   "scripts": {
@@ -27,7 +27,7 @@
     "dapr",
     "effect-ts"
   ],
-  "author": "Nebula Aurora Team",
+  "author": "Simon Stipcich",
   "license": "MIT",
   "dependencies": {
     "@dapr/dapr": "^3.6.1",
