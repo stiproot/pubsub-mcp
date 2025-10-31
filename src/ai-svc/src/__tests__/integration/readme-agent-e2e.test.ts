@@ -4,7 +4,7 @@
  * Tests the full flow of the README agent using MCP tools:
  * 1. User sends request to README agent via pub/sub
  * 2. Agent receives request and processes it
- * 3. Agent calls MCP tools (validate-readme, etc.) via mcp-srvr
+ * 3. Agent calls MCP tools (validate-readme, etc.) via readme-mcp
  * 4. MCP tools may trigger sampling requests back to ai-svc
  * 5. Agent returns final response
  *
@@ -12,7 +12,7 @@
  * 1. docker-compose -f src/docker-compose.ai-mcp.yml up -d
  * 2. npm run init-stream (from ai-svc)
  * 3. cd src/ai-svc && npm run dev:dapr (in one terminal)
- * 4. cd src/mcp-srvr && npm run dev:dapr (in another terminal)
+ * 4. cd src/mcps/readme-mcp && npm run dev:dapr (in another terminal)
  * 5. npm test (from ai-svc)
  */
 

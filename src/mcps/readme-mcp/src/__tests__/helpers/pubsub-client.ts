@@ -76,7 +76,7 @@ export class PubSubTestClient {
   }
 
   /**
-   * Publish a tool request to mcp-srvr
+   * Publish a tool request to readme-mcp
    */
   async publishToolRequest(
     tool: string,

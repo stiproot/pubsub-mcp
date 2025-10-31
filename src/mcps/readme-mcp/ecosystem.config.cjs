@@ -1,6 +1,6 @@
 module.exports = {
   apps: [{
-    name: 'mcp-srvr',
+    name: 'readme-mcp',
     script: './dist/index.js',
     instances: 1,
     exec_mode: 'cluster',
@@ -11,8 +11,8 @@ module.exports = {
       NODE_ENV: 'production',
       PORT: 3005
     },
-    error_file: '/var/log/pm2/mcp-srvr-error.log',
-    out_file: '/var/log/pm2/mcp-srvr-out.log',
+    error_file: '/var/log/pm2/readme-mcp-error.log',
+    out_file: '/var/log/pm2/readme-mcp-out.log',
     log_date_format: 'YYYY-MM-DD HH:mm:ss Z',
     merge_logs: true
   }]

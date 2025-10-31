@@ -11,7 +11,7 @@
  * 1. docker-compose -f src/docker-compose.ai-mcp.yml up -d
  * 2. npm run init-stream (from ai-svc)
  * 3. cd src/ai-svc && npm run dev:dapr (in one terminal)
- * 4. cd src/mcp-srvr && npm run dev:dapr (in another terminal)
+ * 4. cd src/mcps/readme-mcp && npm run dev:dapr (in another terminal)
  * 5. npm test (from ai-svc)
  */
 

@@ -1,6 +1,6 @@
-# AI-SVC & MCP-SRVR Quick Start Guide
+# AI-SVC & readme-mcp Quick Start Guide
 
-This guide will help you quickly start and test the MCP integration between ai-svc and mcp-srvr.
+This guide will help you quickly start and test the MCP integration between ai-svc and readme-mcp.
 
 ## Prerequisites
 
@@ -31,7 +31,7 @@ docker-compose -f docker-compose.ai-mcp.yml ps
 
 ## Step 2: Initialize NATS Stream
 
-From either ai-svc or mcp-srvr directory:
+From either ai-svc or readme-mcp directory:
 
 ```bash
 cd ai-svc
@@ -42,8 +42,8 @@ This creates the `ai-pubsub` stream with subjects:
 
 - `ai-stream` - Agent requests and sampling requests
 - `ai-stream-responses` - Sampling responses from ai-svc
-- `mcp-tool-requests` - Tool calls from ai-svc to mcp-srvr
-- `mcp-tool-responses` - Tool responses from mcp-srvr to ai-svc
+- `mcp-tool-requests` - Tool calls from ai-svc to readme-mcp
+- `mcp-tool-responses` - Tool responses from readme-mcp to ai-svc
 
 Verify stream:
 
@@ -81,19 +81,19 @@ You should see:
 - Agent registration logs
 - "README Agent" registered
 
-## Step 4: Start MCP-SRVR with Dapr
+## Step 4: Start readme-mcp with Dapr
 
 Terminal 2:
 
 ```bash
-cd mcp-srvr
+cd readme-mcp
 
 # Build first
 npm run build
 
 # Start with Dapr
 dapr run \
-  --app-id mcp-srvr \
+  --app-id readme-mcp \
   --app-port 3005 \
   --dapr-http-port 3502 \
   --dapr-grpc-port 50002 \
@@ -104,7 +104,7 @@ dapr run \
 You should see:
 
 - Dapr starting on HTTP port 3502
-- mcp-srvr starting on port 3005
+- readme-mcp starting on port 3005
 - MCP server initialization logs
 
 ## Step 5: Run Integration Tests
@@ -112,7 +112,7 @@ You should see:
 Terminal 3:
 
 ```bash
-cd mcp-srvr
+cd readme-mcp
 
 # Set OpenAI API key for sampling tests
 export OPENAI_API_KEY=your-key-here
@@ -197,7 +197,7 @@ dapr list
 
 # Should show:
 # - ai-svc (HTTP: 3500, GRPC: 50001, App Port: 3004)
-# - mcp-srvr (HTTP: 3502, GRPC: 50002, App Port: 3005)
+# - readme-mcp (HTTP: 3502, GRPC: 50002, App Port: 3005)
 ```
 
 ### NATS connection issues
@@ -237,11 +237,11 @@ nats stream add ai-pubsub
 
 ```bash
 # Stop ai-svc (Ctrl+C in terminal 1)
-# Stop mcp-srvr (Ctrl+C in terminal 2)
+# Stop readme-mcp (Ctrl+C in terminal 2)
 
 # Or stop all Dapr apps
 dapr stop --app-id ai-svc
-dapr stop --app-id mcp-srvr
+dapr stop --app-id readme-mcp
 ```
 
 ### Stop Dependencies
@@ -264,27 +264,27 @@ docker-compose -f docker-compose.ai-mcp.yml down -v
 Tool Call:
   ai-svc (McpBridge)
     → mcp-tool-requests (NATS)
-    → mcp-srvr (/mcp-tool-events)
-    → mcp-srvr processes tool
+    → readme-mcp (/mcp-tool-events)
+    → readme-mcp processes tool
     → mcp-tool-responses (NATS)
     → ai-svc (McpBridge receives result)
 
 Sampling:
-  mcp-srvr (LlmClient)
+  readme-mcp (LlmClient)
     → ai-stream (NATS)
     → ai-svc (/ai-events)
     → ai-svc calls OpenAI
     → ai-stream-responses (NATS)
-    → mcp-srvr (LlmClient receives result)
+    → readme-mcp (LlmClient receives result)
 ```
 
 ## Next Steps
 
-- Review integration tests in `src/mcp-srvr/src/__tests__/integration/`
+- Review integration tests in `src/mcps/readme-mcp/src/__tests__/integration/`
 - Check implementation plan: `src/ai-svc/MCP-INTEGRATION-PLAN.md`
 - Explore README agent: `src/ai-svc/src/agents/readme-agent.ts`
 - Add custom agents following the README agent pattern
-- Create additional MCP tools in mcp-srvr
+- Create additional MCP tools in readme-mcp
 
 ## Environment Variables
 
@@ -301,7 +301,7 @@ OPENAI_API_KEY=your-key-here
 # OPENAI_BASE_URL=https://api.openai.com/v1  # Optional: Custom OpenAI endpoint (for proxies, Azure, etc.)
 ```
 
-### MCP-SRVR (.env)
+### readme-mcp (.env)
 
 ```bash
 PORT=3005

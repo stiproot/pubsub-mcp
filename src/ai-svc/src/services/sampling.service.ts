@@ -6,7 +6,7 @@ import { ConfigService } from "./config.service.js"
 
 /**
  * SamplingService
- * Handles LLM sampling requests from mcp-srvr
+ * Handles LLM sampling requests from readme-mcp
  * Uses ChatOpenAI to generate responses
  */
 export class SamplingService extends Context.Tag("SamplingService")<

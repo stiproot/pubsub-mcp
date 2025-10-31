@@ -1,10 +1,10 @@
 # AI-SVC MCP Integration Tests
 
-Full end-to-end integration tests for ai-svc and mcp-srvr MCP integration.
+Full end-to-end integration tests for ai-svc and readme-mcp MCP integration.
 
 ## Overview
 
-These tests validate the complete integration between ai-svc and mcp-srvr:
+These tests validate the complete integration between ai-svc and readme-mcp:
 
 - **README Agent E2E** (`readme-agent-e2e.test.ts`): Tests the full flow of README agent using MCP tools
 - **Concurrent Agents** (`concurrent-agents.test.ts`): Tests system stability under concurrent load
@@ -20,6 +20,7 @@ docker-compose -f src/docker-compose.ai-mcp.yml up -d
 ```
 
 This starts:
+
 - NATS JetStream (port 4222)
 - PostgreSQL (port 5432)
 - Dapr Placement (port 50006)
@@ -35,6 +36,7 @@ npm run init-stream
 ```
 
 This creates the required NATS JetStream streams:
+
 - `ai-pubsub` stream with subjects: `ai-stream`, `ai-stream-responses`, `mcp-tool-requests`, `mcp-tool-responses`
 
 ### 3. Start ai-svc with Dapr
@@ -48,16 +50,16 @@ npm run dev:dapr
 
 This starts ai-svc on port 3004 with Dapr sidecar on port 3500.
 
-### 4. Start mcp-srvr with Dapr
+### 4. Start readme-mcp with Dapr
 
 In another terminal:
 
 ```bash
-cd src/mcp-srvr
+cd src/mcps/readme-mcp
 npm run dev:dapr
 ```
 
-This starts mcp-srvr on port 3005 with Dapr sidecar on port 3502.
+This starts readme-mcp on port 3005 with Dapr sidecar on port 3502.
 
 ### 5. Set Environment Variables
 
@@ -128,7 +130,7 @@ Tests system behavior under concurrent load:
 
 Successful test run:
 
-```
+```txt
 ✓ src/__tests__/integration/readme-agent-e2e.test.ts (4)
   ✓ README Agent End-to-End (4)
     ✓ should validate README using MCP tools end-to-end
@@ -154,7 +156,8 @@ Tests  8 passed (8)
 **Cause:** Services not running or not responding
 
 **Solution:**
-1. Check both ai-svc and mcp-srvr are running with `ps aux | grep dapr`
+
+1. Check both ai-svc and readme-mcp are running with `ps aux | grep dapr`
 2. Check logs for errors in service terminals
 3. Verify NATS is accessible: `curl http://localhost:8222/healthz`
 4. Restart services if needed
@@ -164,6 +167,7 @@ Tests  8 passed (8)
 **Cause:** Infrastructure not started
 
 **Solution:**
+
 1. Verify docker-compose is running: `docker-compose -f src/docker-compose.ai-mcp.yml ps`
 2. Check all containers are healthy
 3. Restart docker-compose if needed
@@ -173,6 +177,7 @@ Tests  8 passed (8)
 **Cause:** NATS streams not initialized
 
 **Solution:**
+
 1. Run `npm run init-stream` from ai-svc directory
 2. Verify streams exist: `npm run check-stream`
 
@@ -181,6 +186,7 @@ Tests  8 passed (8)
 **Cause:** ai-svc not fully started
 
 **Solution:**
+
 1. Wait 5-10 seconds after starting ai-svc
 2. Check ai-svc logs for "🎉 AI Service running" message
 3. Verify agents registered with: `curl http://localhost:3004/agents`
@@ -190,6 +196,7 @@ Tests  8 passed (8)
 **Cause:** OpenAI API key not set or invalid
 
 **Solution:**
+
 1. Set OPENAI_API_KEY environment variable
 2. Or add to `.env` file in ai-svc directory
 3. Restart ai-svc after setting
@@ -199,12 +206,13 @@ Tests  8 passed (8)
 **Cause:** Agent may complete too quickly or use cached responses
 
 **Solution:**
+
 - This is expected behavior - tests will pass even if monitoring doesn't capture every event
 - Check chat history to verify agent completed successfully
 
 ## Architecture
 
-```
+```txt
 ┌─────────────┐                    ┌──────────────┐
 │  Test       │                    │  ai-svc      │
 │  Client     │ ─── pub/sub ────→ │  (port 3004) │
@@ -216,7 +224,7 @@ Tests  8 passed (8)
 │             │                           │
 │             │                           ↓
 │             │                    ┌──────────────┐
-│             │ ←── monitoring ─── │  mcp-srvr    │
+│             │ ←── monitoring ─── │  readme-mcp    │
 │             │                    │  (port 3005) │
 │             │                    │              │
 └─────────────┘                    │  Dapr 3502   │
@@ -234,9 +242,9 @@ Test configuration is in `src/__tests__/helpers/test-config.ts`:
 
 - **Ports:**
   - ai-svc: 3004
-  - mcp-srvr: 3005
+  - readme-mcp: 3005
   - Dapr (ai-svc): 3500
-  - Dapr (mcp-srvr): 3502
+  - Dapr (readme-mcp): 3502
   - NATS: 4222
 
 - **Topics:**
@@ -263,7 +271,7 @@ cd src/ai-svc && npm run init-stream
 npm run dev:dapr &
 AI_PID=$!
 
-cd ../mcp-srvr && npm run dev:dapr &
+cd ../readme-mcp && npm run dev:dapr &
 MCP_PID=$!
 
 # Wait for services to initialize
@@ -281,4 +289,4 @@ docker-compose -f src/docker-compose.ai-mcp.yml down
 
 - [MCP Integration Plan](../../MCP-INTEGRATION-PLAN.md)
 - [ai-svc README](../../README.md)
-- [mcp-srvr README](../../../mcp-srvr/README.md)
+- [readme-mcp README](../../../readme-mcp/README.md)

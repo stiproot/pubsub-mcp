@@ -81,7 +81,7 @@ export const LlmClientServiceLive = Layer.effect(
             temperature,
             maxTokens: 2000,
             metadata: {
-              source: "mcp-srvr",
+              source: "readme-mcp",
               timestamp: new Date().toISOString()
             }
           }

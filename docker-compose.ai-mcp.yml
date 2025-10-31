@@ -1,5 +1,5 @@
-# Docker Compose for AI-SVC and MCP-SRVR Dependencies
-# Minimal set of dependencies needed to run ai-svc and mcp-srvr locally
+# Docker Compose for AI-SVC and readme-mcp Dependencies
+# Minimal set of dependencies needed to run ai-svc and readme-mcp locally
 #
 # Usage:
 #   docker-compose -f docker-compose.ai-mcp.yml up -d
@@ -8,7 +8,7 @@
 #   - Dapr Placement (required for Dapr actors)
 #   - Dapr Scheduler (required for Dapr workflows)
 #   - NATS JetStream (pub/sub messaging)
-#   - PostgreSQL (state store for ai-svc chat history and mcp-srvr state)
+#   - PostgreSQL (state store for ai-svc chat history and readme-mcp state)
 
 services:
 

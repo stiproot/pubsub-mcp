@@ -73,7 +73,7 @@ export const ConfigServiceLive = Layer.succeed(ConfigService, {
   getServerHost: getEnv("HOST", "0.0.0.0"),
   getDaprHost: getEnv("DAPR_HOST", "localhost"),
   getDaprPort: getEnvInt("DAPR_HTTP_PORT", 3500),
-  getDaprAppId: getEnv("DAPR_APP_ID", "mcp-srvr"),
+  getDaprAppId: getEnv("DAPR_APP_ID", "readme-mcp"),
   getPubsubName: getEnv("PUBSUB_NAME", "ai-pubsub"),
   getTopicName: getEnv("TOPIC_NAME", "ai-stream"),
   getTemplateUrl: getEnv(
@@ -91,7 +91,7 @@ export const ConfigServiceTest = Layer.succeed(ConfigService, {
   getServerHost: Effect.succeed("localhost"),
   getDaprHost: Effect.succeed("localhost"),
   getDaprPort: Effect.succeed(3500),
-  getDaprAppId: Effect.succeed("mcp-srvr-test"),
+  getDaprAppId: Effect.succeed("readme-mcp-test"),
   getPubsubName: Effect.succeed("test-pubsub"),
   getTopicName: Effect.succeed("test-stream"),
   getTemplateUrl: Effect.succeed("https://example.com/template.md"),

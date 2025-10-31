@@ -200,7 +200,7 @@ const setupRestEndpoints = (
             result
           })
         } else if (decoded.type === "sampling.request" || (decoded.data as any).requestId) {
-          // NEW: Sampling request from mcp-srvr
+          // NEW: Sampling request from readme-mcp
           yield* Effect.logInfo("Processing sampling request", {
             requestId: (decoded.data as any).requestId
           })

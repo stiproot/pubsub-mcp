@@ -51,7 +51,7 @@ interface PendingRequest {
  * McpBridgeService
  * Handles MCP tool calls via Dapr pub/sub
  * Uses Effect.Deferred for async request/response correlation
- * Following the pattern from mcp-srvr LlmClientService
+ * Following the pattern from readme-mcp LlmClientService
  */
 export class McpBridgeService extends Context.Tag("McpBridgeService")<
   McpBridgeService,
@@ -123,7 +123,7 @@ export const McpBridgeServiceLive = Layer.effect(
             }
           }
 
-          // Publish request to mcp-srvr
+          // Publish request to readme-mcp
           yield* dapr.publishEvent(pubsubName, toolRequestTopic, toolRequest)
 
           yield* Effect.logInfo("MCP tool request published", { requestId, toolName })

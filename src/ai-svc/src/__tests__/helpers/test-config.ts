@@ -7,7 +7,7 @@ export const TEST_CONFIG = {
   aiSvcHost: process.env.AI_SVC_HOST || "localhost",
   aiSvcPort: parseInt(process.env.AI_SVC_PORT || "3004", 10),
 
-  // mcp-srvr configuration (for validation)
+  // readme-mcp configuration (for validation)
   mcpSrvrHost: process.env.MCP_SRVR_HOST || "localhost",
   mcpSrvrPort: parseInt(process.env.MCP_SRVR_PORT || "3005", 10),
 

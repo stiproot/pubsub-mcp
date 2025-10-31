@@ -1,4 +1,4 @@
-# mcp-srvr
+# readme-mcp
 
 Model Context Protocol (MCP) server for enforcing README standards and best practices across the pubsub-mcp project.
 
@@ -46,7 +46,7 @@ The service integrates with the ai-svc for LLM-powered suggestions using Dapr pu
 ### Data Flow
 
 ```txt
-[MCP Client/AI Agent] → (HTTP/JSON-RPC) → [mcp-srvr]
+[MCP Client/AI Agent] → (HTTP/JSON-RPC) → [readme-mcp]
                                               ↓
                                     [Effect-TS Services]
                                               ↓
@@ -73,7 +73,7 @@ Dapr CLI (for local development with pub/sub)
 1. Navigate to the service directory
 
     ```bash
-    cd src/mcp-srvr
+    cd src/mcps/readme-mcp
     ```
 
 2. Install dependencies
@@ -116,7 +116,7 @@ The service will be available at:
 | `HOST` | Service bind address | 0.0.0.0 | No |
 | `DAPR_HOST` | Dapr sidecar host | localhost | No |
 | `DAPR_HTTP_PORT` | Dapr HTTP port | 3500 | No |
-| `DAPR_APP_ID` | Dapr application ID | mcp-srvr | No |
+| `DAPR_APP_ID` | Dapr application ID | readme-mcp | No |
 | `PUBSUB_NAME` | Dapr pubsub component name | ai-pubsub | Yes |
 | `TOPIC_NAME` | Dapr pubsub topic for ai-svc | ai-stream | Yes |
 | `README_TEMPLATE_URL` | URL to README template | - | No |
@@ -146,7 +146,7 @@ Returns service health status.
 ```json
 {
   "status": "healthy",
-  "service": "mcp-srvr",
+  "service": "readme-mcp",
   "timestamp": "2025-01-29T12:00:00.000Z"
 }
 ```
@@ -348,7 +348,7 @@ Published when `suggest-improvements` tool needs LLM assistance.
   "temperature": 0.7,
   "maxTokens": 2000,
   "metadata": {
-    "source": "mcp-srvr",
+    "source": "readme-mcp",
     "timestamp": "2025-01-29T12:00:00.000Z"
   }
 }
@@ -492,7 +492,7 @@ LOG_LEVEL=debug npm run dev
 ### Code Structure
 
 ```txt
-mcp-srvr/
+readme-mcp/
 ├── src/
 │   ├── services/          # Effect-TS services
 │   │   ├── config.service.ts
@@ -554,10 +554,10 @@ npm run build
 
 ```bash
 # Build image
-docker build -t mcp-srvr:latest .
+docker build -t readme-mcp:latest .
 
 # Run container
-docker run -p 8082:8082 -p 3005:3005 --env-file .env mcp-srvr:latest
+docker run -p 8082:8082 -p 3005:3005 --env-file .env readme-mcp:latest
 ```
 
 ### Kubernetes
@@ -569,18 +569,18 @@ Service is deployed via Kubernetes manifests in `/k8s/`
 kubectl apply -k k8s/overlays/local
 
 # Check status
-kubectl get pods -l app=mcp-srvr
-kubectl logs -l app=mcp-srvr -f
+kubectl get pods -l app=readme-mcp
+kubectl logs -l app=readme-mcp -f
 
 # Port forward
-kubectl port-forward svc/mcp-srvr 8082:8082
+kubectl port-forward svc/readme-mcp 8082:8082
 ```
 
 **Dapr Annotations:**
 
 ```yaml
 dapr.io/enabled: "true"
-dapr.io/app-id: "mcp-srvr"
+dapr.io/app-id: "readme-mcp"
 dapr.io/app-port: "3005"
 dapr.io/enable-api-logging: "true"
 ```

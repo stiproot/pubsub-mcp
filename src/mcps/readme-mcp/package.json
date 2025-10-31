@@ -7,7 +7,7 @@
   "scripts": {
     "build": "tsc",
     "dev": "tsx watch src/index.ts",
-    "dev:dapr": "dapr run --app-id mcp-srvr --app-port 3005 --dapr-http-port 3502 --dapr-grpc-port 50002 --placement-host-address localhost:50006 --scheduler-host-address localhost:50007 --components-path ../dapr/components.mcp -- npm run dev",
+    "dev:dapr": "dapr run --app-id readme-mcp --app-port 3005 --dapr-http-port 3502 --dapr-grpc-port 50002 --placement-host-address localhost:50006 --scheduler-host-address localhost:50007 --components-path ../dapr/components.mcp -- npm run dev",
     "start": "node dist/index.js",
     "init-stream": "node init-stream.cjs",
     "init-stream:k8s": "dotenv -e .env.k8s -- node init-stream.cjs",

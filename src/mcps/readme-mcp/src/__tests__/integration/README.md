@@ -1,11 +1,13 @@
 # MCP Integration Tests
 
-Integration tests for the MCP pub/sub integration between `ai-svc` and `mcp-srvr`.
+Integration tests for the MCP pub/sub integration between `ai-svc` and `readme-mcp`.
 
 ## Test Coverage
 
 ### MCP Tool Tests (`mcp-pubsub.test.ts`)
+
 Tests all 4 MCP tools via pub/sub:
+
 - ✅ `validate-readme` - Validates README content
 - ✅ `generate-readme` - Generates README from metadata
 - ✅ `check-completeness` - Checks README completeness
@@ -13,20 +15,22 @@ Tests all 4 MCP tools via pub/sub:
 - ✅ Unknown tool handling
 
 ### Sampling Integration Tests (`sampling-integration.test.ts`)
+
 Tests the full LLM sampling round-trip:
+
 - ✅ `suggest-improvements` - Full sampling flow with real OpenAI LLM
 - ✅ Concurrent sampling requests - Multiple parallel requests
 
 ## Architecture
 
-```
+```txt
 ┌─────────────────────────────────────────────────────────────┐
 │                     Test Architecture                        │
 └─────────────────────────────────────────────────────────────┘
 
 Test Client (NATS)
      │
-     ├─► mcp-tool-requests ──► mcp-srvr ─┐
+     ├─► mcp-tool-requests ──► readme-mcp ─┐
      │                                     │
      │   ┌─────────────────────────────────┘
      │   │
@@ -40,11 +44,13 @@ Test Client (NATS)
 ## Prerequisites
 
 ### 1. Start Dependencies
+
 ```bash
 docker-compose -f src/docker-compose.deps.yml up -d
 ```
 
 This starts:
+
 - NATS JetStream (port 4222)
 - Dapr placement (port 50006)
 - Dapr scheduler (port 50007)
@@ -52,24 +58,28 @@ This starts:
 - ClickHouse
 
 ### 2. Initialize NATS Stream
+
 ```bash
-cd src/mcp-srvr
+cd src/mcps/readme-mcp
 npm run init-stream
 ```
 
 Or from ai-svc:
+
 ```bash
 cd src/ai-svc
 npm run init-stream
 ```
 
 This creates the `ai-pubsub` stream with subjects:
+
 - `ai-stream`
 - `ai-stream-responses`
 - `mcp-tool-requests`
 - `mcp-tool-responses`
 
 ### 3. Set OpenAI API Key
+
 ```bash
 export OPENAI_API_KEY=your-api-key-here
 ```
@@ -78,7 +88,8 @@ Required for sampling integration tests.
 
 ### 4. Start Services
 
-**Terminal 1: ai-svc**
+Terminal 1: ai-svc
+
 ```bash
 cd src/ai-svc
 dapr run \
@@ -89,11 +100,12 @@ dapr run \
   -- npm run dev
 ```
 
-**Terminal 2: mcp-srvr**
+Terminal 2: readme-mcp
+
 ```bash
-cd src/mcp-srvr
+cd src/mcps/readme-mcp
 dapr run \
-  --app-id mcp-srvr \
+  --app-id readme-mcp \
   --app-port 8082 \
   --dapr-http-port 3502 \
   --components-path ../dapr/components.local \
@@ -103,12 +115,14 @@ dapr run \
 ## Running Tests
 
 ### All Integration Tests
+
 ```bash
-cd src/mcp-srvr
+cd src/mcps/readme-mcp
 npm run test:integration
 ```
 
 ### Specific Test File
+
 ```bash
 # MCP tool tests only
 npm test src/__tests__/integration/mcp-pubsub.test.ts
@@ -118,6 +132,7 @@ npm test src/__tests__/integration/sampling-integration.test.ts
 ```
 
 ### Watch Mode
+
 ```bash
 npm run test:watch
 ```
@@ -138,6 +153,7 @@ Configuration is in `src/__tests__/helpers/test-config.ts`:
 ```
 
 Override via environment variables:
+
 - `NATS_URL`
 - `DAPR_HOST`
 - `DAPR_HTTP_PORT`
@@ -145,16 +161,19 @@ Override via environment variables:
 ## Troubleshooting
 
 ### Tests Timeout
-- Ensure both ai-svc and mcp-srvr are running with Dapr
+
+- Ensure both ai-svc and readme-mcp are running with Dapr
 - Check services are subscribed to topics: `dapr list`
 - Verify stream exists: `npm run check-stream`
 
 ### Sampling Tests Fail
+
 - Ensure `OPENAI_API_KEY` is set
 - Check ai-svc logs for LLM errors
 - Increase timeout if needed
 
 ### Connection Errors
+
 - Ensure NATS is running: `docker ps | grep nats`
 - Test NATS connection: `nats --server localhost:4222 server check`
 - Check stream: `nats stream info ai-pubsub`
@@ -162,9 +181,11 @@ Override via environment variables:
 ## Test Helpers
 
 ### `PubSubTestClient`
+
 Located in `src/__tests__/helpers/pubsub-client.ts`
 
 Methods:
+
 - `publishToolRequest(tool, args)` - Publish MCP tool request
 - `subscribeToolResponse(requestId)` - Wait for tool response
 - `publishSamplingRequest(prompt)` - Publish sampling request
@@ -172,6 +193,7 @@ Methods:
 - `waitForEvent(topic, predicate)` - Wait for specific event
 
 ### Example Usage
+
 ```typescript
 import { createTestClient } from "../helpers/index.js"
 
@@ -193,12 +215,14 @@ await client.disconnect()
 ## Development
 
 ### Adding New Tests
+
 1. Create test file in `src/__tests__/integration/`
 2. Import helpers: `import { createTestClient, TEST_CONFIG } from "../helpers/index.js"`
 3. Follow existing patterns for setup/teardown
 4. Use descriptive test names and console.log for debugging
 
 ### Debugging
+
 - Add `console.log` statements to track message flow
 - Check Dapr logs: `dapr logs --app-id ai-svc`
 - Monitor NATS: `nats sub ">" --server localhost:4222`

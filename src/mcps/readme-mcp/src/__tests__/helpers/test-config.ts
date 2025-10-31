@@ -1,6 +1,6 @@
 /**
  * Test configuration for MCP integration tests
- * These tests validate the pub/sub integration between ai-svc and mcp-srvr
+ * These tests validate the pub/sub integration between ai-svc and readme-mcp
  */
 
 export const TEST_CONFIG = {

@@ -2,7 +2,7 @@ import { Schema } from "@effect/schema"
 
 /**
  * CloudEvent schema following CloudEvents specification
- * Generic schema that accepts any data payload - matches mcp-srvr
+ * Generic schema that accepts any data payload - matches readme-mcp
  */
 export const CloudEventSchema = Schema.Struct({
   specversion: Schema.String,
@@ -74,7 +74,7 @@ export type ChatSessionState = Schema.Schema.Type<typeof ChatSessionStateSchema>
 
 /**
  * Sampling request schema
- * Used for LLM sampling requests from mcp-srvr
+ * Used for LLM sampling requests from readme-mcp
  */
 export const SamplingRequestSchema = Schema.Struct({
   requestId: Schema.String,
@@ -89,7 +89,7 @@ export type SamplingRequest = Schema.Schema.Type<typeof SamplingRequestSchema>
 
 /**
  * Sampling response schema
- * Used for LLM sampling responses to mcp-srvr
+ * Used for LLM sampling responses to readme-mcp
  */
 export const SamplingResponseSchema = Schema.Struct({
   requestId: Schema.String,

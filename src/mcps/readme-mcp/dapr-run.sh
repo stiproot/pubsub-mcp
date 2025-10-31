@@ -7,7 +7,7 @@ fi
 
 # Run with Dapr sidecar
 dapr run \
-  --app-id mcp-srvr \
+  --app-id readme-mcp \
   --app-port 3005 \
   --dapr-http-port 3500 \
   --dapr-grpc-port 50001 \

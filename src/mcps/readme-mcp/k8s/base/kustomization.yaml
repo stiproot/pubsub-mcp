@@ -8,6 +8,6 @@ resources:
   - secret.yaml
 
 commonLabels:
-  app: mcp-srvr
+  app: readme-mcp
 
 namespace: default

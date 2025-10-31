@@ -1,21 +1,21 @@
 /**
  * LLM Sampling Integration Test
- * Tests the full sampling round-trip: mcp-srvr → ai-svc → LLM → ai-svc → mcp-srvr
+ * Tests the full sampling round-trip: readme-mcp → ai-svc → LLM → ai-svc → readme-mcp
  *
  * This test validates the suggest-improvements tool which requires:
- * 1. mcp-srvr receives tool request
- * 2. mcp-srvr publishes sampling request to ai-stream
+ * 1. readme-mcp receives tool request
+ * 2. readme-mcp publishes sampling request to ai-stream
  * 3. ai-svc receives sampling request
  * 4. ai-svc calls OpenAI LLM
  * 5. ai-svc publishes sampling response to ai-stream-responses
- * 6. mcp-srvr receives sampling response
- * 7. mcp-srvr completes tool request with suggestions
+ * 6. readme-mcp receives sampling response
+ * 7. readme-mcp completes tool request with suggestions
  *
  * Prerequisites:
  * 1. Run: docker-compose -f src/docker-compose.deps.yml up -d
  * 2. Run: npm run init-stream
  * 3. Start ai-svc with Dapr
- * 4. Start mcp-srvr with Dapr
+ * 4. Start readme-mcp with Dapr
  * 5. Set OPENAI_API_KEY environment variable
  * 6. Run tests: npm test
  */
@@ -63,7 +63,7 @@ Run it.
     })
     console.log(`Tool request published: ${requestId}`)
 
-    // 2. Wait for sampling request to be published by mcp-srvr
+    // 2. Wait for sampling request to be published by readme-mcp
     console.log("Step 2: Waiting for sampling request on ai-stream...")
     const samplingRequestPromise = client.waitForEvent(
       TEST_CONFIG.samplingRequestTopic,

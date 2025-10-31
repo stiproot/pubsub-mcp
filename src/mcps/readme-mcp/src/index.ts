@@ -123,7 +123,7 @@ const main = Effect.gen(function* () {
   app.get("/health", (req: Request, res: Response) => {
     res.json({
       status: "healthy",
-      service: "mcp-srvr",
+      service: "readme-mcp",
       timestamp: new Date().toISOString()
     })
   })
@@ -228,7 +228,7 @@ const main = Effect.gen(function* () {
         const cloudEvent = {
           specversion: "1.0",
           type: "mcp.tool.response",
-          source: "mcp-srvr",
+          source: "readme-mcp",
           id: uuidv4(),
           data: response
         }

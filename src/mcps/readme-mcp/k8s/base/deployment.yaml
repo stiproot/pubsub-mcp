@@ -1,27 +1,27 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: mcp-srvr
+  name: readme-mcp
   labels:
-    app: mcp-srvr
+    app: readme-mcp
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: mcp-srvr
+      app: readme-mcp
   template:
     metadata:
       labels:
-        app: mcp-srvr
+        app: readme-mcp
       annotations:
         dapr.io/enabled: "true"
-        dapr.io/app-id: "mcp-srvr"
+        dapr.io/app-id: "readme-mcp"
         dapr.io/app-port: "3005"
         dapr.io/enable-api-logging: "true"
     spec:
       containers:
-        - name: mcp-srvr
-          image: mcp-srvr:latest
+        - name: readme-mcp
+          image: readme-mcp:latest
           ports:
             - containerPort: 8082
               name: http
@@ -39,26 +39,26 @@ spec:
             - name: DAPR_HTTP_PORT
               value: "3500"
             - name: DAPR_APP_ID
-              value: "mcp-srvr"
+              value: "readme-mcp"
             - name: PUBSUB_NAME
               valueFrom:
                 configMapKeyRef:
-                  name: mcp-srvr-config
+                  name: readme-mcp-config
                   key: PUBSUB_NAME
             - name: TOPIC_NAME
               valueFrom:
                 configMapKeyRef:
-                  name: mcp-srvr-config
+                  name: readme-mcp-config
                   key: TOPIC_NAME
             - name: README_TEMPLATE_URL
               valueFrom:
                 configMapKeyRef:
-                  name: mcp-srvr-config
+                  name: readme-mcp-config
                   key: README_TEMPLATE_URL
             - name: SAMPLING_TIMEOUT_MS
               valueFrom:
                 configMapKeyRef:
-                  name: mcp-srvr-config
+                  name: readme-mcp-config
                   key: SAMPLING_TIMEOUT_MS
           resources:
             requests:

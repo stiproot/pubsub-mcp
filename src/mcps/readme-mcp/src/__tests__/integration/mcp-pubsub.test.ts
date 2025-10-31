@@ -1,12 +1,12 @@
 /**
  * MCP Pub/Sub Integration Tests
- * Tests the full pub/sub integration between ai-svc and mcp-srvr
+ * Tests the full pub/sub integration between ai-svc and readme-mcp
  *
  * Prerequisites:
  * 1. Run: docker-compose -f src/docker-compose.deps.yml up -d
- * 2. Run: npm run init-stream (from either ai-svc or mcp-srvr)
+ * 2. Run: npm run init-stream (from either ai-svc or readme-mcp)
  * 3. Start ai-svc: cd src/ai-svc && dapr run --app-id ai-svc --app-port 8080 --dapr-http-port 3500 --components-path ../dapr/components.local -- npm run dev
- * 4. Start mcp-srvr: cd src/mcp-srvr && dapr run --app-id mcp-srvr --app-port 8082 --dapr-http-port 3502 --components-path ../dapr/components.local -- npm run dev
+ * 4. Start readme-mcp: cd src/mcps/readme-mcp && dapr run --app-id readme-mcp --app-port 8082 --dapr-http-port 3502 --components-path ../dapr/components.local -- npm run dev
  * 5. Run tests: npm test
  */
 
