@@ -1,0 +1,41 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: dapr-scheduler
+  labels:
+    app: dapr-scheduler
+    component: dapr
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: dapr-scheduler
+  template:
+    metadata:
+      labels:
+        app: dapr-scheduler
+        component: dapr
+    spec:
+      containers:
+      - name: dapr-scheduler
+        image: daprio/dapr:1.16.0
+        imagePullPolicy: IfNotPresent
+        command:
+        - /scheduler
+        ports:
+        - containerPort: 50006
+          name: scheduler
+          protocol: TCP
+        volumeMounts:
+        - name: scheduler-data
+          mountPath: /data
+        resources:
+          requests:
+            memory: "128Mi"
+            cpu: "100m"
+          limits:
+            memory: "256Mi"
+            cpu: "500m"
+      volumes:
+      - name: scheduler-data
+        emptyDir: {}

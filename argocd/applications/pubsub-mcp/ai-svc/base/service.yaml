@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: ai-svc
+  labels:
+    app: ai-svc
+spec:
+  type: ClusterIP
+  selector:
+    app: ai-svc
+  ports:
+  - port: 8081
+    targetPort: 8081
+    protocol: TCP
+    name: http

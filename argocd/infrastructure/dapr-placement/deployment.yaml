@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: dapr-placement
+  labels:
+    app: dapr-placement
+    component: dapr
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: dapr-placement
+  template:
+    metadata:
+      labels:
+        app: dapr-placement
+        component: dapr
+    spec:
+      containers:
+      - name: dapr-placement
+        image: daprio/dapr:1.16.0
+        imagePullPolicy: IfNotPresent
+        command:
+        - /placement
+        args:
+        - -port
+        - "50006"
+        ports:
+        - containerPort: 50006
+          name: placement
+          protocol: TCP
+        resources:
+          requests:
+            memory: "128Mi"
+            cpu: "100m"
+          limits:
+            memory: "256Mi"
+            cpu: "500m"
